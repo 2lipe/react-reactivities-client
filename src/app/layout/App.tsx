@@ -1,0 +1,35 @@
+import React, { Fragment, useEffect, useState } from 'react';
+import axios from 'axios';
+import { Container, List } from 'semantic-ui-react';
+
+import { Activity } from '../models/activity';
+import { Response } from '../models/response';
+import { NavBar } from './components/navbar';
+
+function App() {
+  const [activities, setActivities] = useState<Activity[]>([]);
+
+  useEffect(() => {
+    axios
+      .get<Response<Activity[]>>('http://localhost:5000/api/v1/activities')
+      .then(({ data: { data } }) => {
+        setActivities(data);
+      });
+  }, []);
+
+  return (
+    <Fragment>
+      <NavBar />
+
+      <Container style={{ marginTop: '7em' }}>
+        <List>
+          {activities.map((activity) => (
+            <List.Item key={activity.id}>{activity.title}</List.Item>
+          ))}
+        </List>
+      </Container>
+    </Fragment>
+  );
+}
+
+export default App;
