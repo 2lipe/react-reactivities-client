@@ -12,6 +12,7 @@ function App() {
   const [selectedActivity, setSelectedActivity] = useState<Activity | undefined>(
     undefined,
   );
+  const [editMode, setEditMode] = useState<boolean>(false);
 
   useEffect(() => {
     axios
@@ -33,9 +34,19 @@ function App() {
     setSelectedActivity(undefined);
   };
 
+  const handleFormOpen = (id?: string) => {
+    id ? handleSelectActivity(id) : handleCancelSelectedActivity();
+
+    setEditMode(true);
+  };
+
+  const handleFormClose = () => {
+    setEditMode(false);
+  };
+
   return (
     <Fragment>
-      <NavBar />
+      <NavBar openForm={handleFormOpen} />
 
       <Container style={{ marginTop: '7em' }}>
         <ActivityDashboard
@@ -43,6 +54,9 @@ function App() {
           selectedActivity={selectedActivity}
           selectActivity={handleSelectActivity}
           cancelSelectActivity={handleCancelSelectedActivity}
+          editMode={editMode}
+          openForm={handleFormOpen}
+          closeForm={handleFormClose}
         />
       </Container>
     </Fragment>
