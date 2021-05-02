@@ -4,9 +4,10 @@ import { Activity } from '../../../app/models/activity';
 
 interface ActivityListProps {
   activities: Activity[];
+  selectActivity: (id: string) => void;
 }
 
-export const ActivityList = ({ activities }: ActivityListProps) => {
+export const ActivityList = ({ activities, selectActivity }: ActivityListProps) => {
   return (
     <Segment>
       <Item.Group divided>
@@ -24,7 +25,12 @@ export const ActivityList = ({ activities }: ActivityListProps) => {
                 </div>
 
                 <Item.Extra>
-                  <Button floated="right" content="View" color="blue" />
+                  <Button
+                    onClick={() => selectActivity(activity.id)}
+                    floated="right"
+                    content="View"
+                    color="blue"
+                  />
                   <Label basic content={activity.category} />
                 </Item.Extra>
               </Item.Description>
